@@ -9,4 +9,4 @@ The project is designed to be compiled on windows and contains the following bin
 * GLEW
 * SDL2
 
-To compile, simply run `compile.bat` from the root directory of the project.
+To compile, simply run `make` from the root directory of the project.
