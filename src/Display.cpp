@@ -27,16 +27,32 @@ Display::Display(int width, int height, const std::string& title)
 	if(status != GLEW_OK){
 		std::cerr << "Glew failed to initialize!" << std::endl;
 	}
+
+	m_isClosed = false;
 }
+
+
+
+void  Display::Update()
+{
+	SDL_GL_SwapWindow(m_window);
+	SDL_Event e;
+	while(SDL_PollEvent(&e))
+	{
+		if(e.type == SDL_QUIT){
+			m_isClosed = true;
+		}
+	}
+}
+
+bool Display::isClosed()
+{
+	return m_isClosed;
+};
 
 Display::~Display()
 {
 	SDL_GL_DeleteContext(m_glContext);
 	SDL_DestroyWindow(m_window);
 	SDL_Quit();
-}
-
-void  Display::SwapBuffers()
-{
-	SDL_GL_SwapWindow(m_window);
 }
