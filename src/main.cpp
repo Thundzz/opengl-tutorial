@@ -6,6 +6,7 @@
 #include "Shader.h"
 #include "Mesh.h"
 #include "Texture.h"
+#include "Transform.h"
 
 
 int main(int argc, char *argv[])
@@ -20,14 +21,28 @@ int main(int argc, char *argv[])
 
 	Mesh mesh(vertices, sizeof(vertices)/sizeof(vertices[0]));
 	Texture texture("../res/bricks.jpg");
+	Transform transform;
+
+	float counter = 0.0f;
 
 	while(!display.isClosed()){
 		display.Clear(0.0f, 0.15f, 0.3f, 1.0f);
+
+		float sinCounter = sinf(counter);
+		float cosCounter = cosf(counter);
+
+		transform.GetPos().x = sinCounter;
+		transform.GetRot().z = counter*50*3.14/180.0;
+		transform.GetScale() = glm::vec3(cosCounter, cosCounter, cosCounter);
+
 		shader.Bind();
 		texture.Bind(0);
+		shader.Update(transform);
 		mesh.Draw();
 
 		display.Update();
+
+		counter += 0.02f;
 	}
 
 
