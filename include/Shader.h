@@ -4,6 +4,7 @@
 #include <string>
 #include <GL/glew.h>
 #include "Transform.h"
+#include "Camera.h"
 
 class Shader
 {
@@ -11,7 +12,7 @@ class Shader
 public:
 	Shader(const std::string& filename);
 	void Bind();
-	void Update(const Transform& transform);
+	void Update(const Transform& transform, const Camera& camera);
 
 	~Shader();
 	

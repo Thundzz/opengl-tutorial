@@ -7,11 +7,19 @@
 #include "Mesh.h"
 #include "Texture.h"
 #include "Transform.h"
+#include "Camera.h"
 
+#define WIDTH 800
+#define HEIGHT 600
+
+float to_rads(float deg)
+{
+	return deg*3.14/180.0;
+}
 
 int main(int argc, char *argv[])
 {
-	Display display(800, 600, "my window");
+	Display display(WIDTH, HEIGHT, "my window");
 	Shader shader("../res/basicShader");
 	Vertex vertices[] = {
 		Vertex(glm::vec3(-0.5, -0.5, 0), glm::vec2(0.0, 0.0)),
@@ -21,6 +29,8 @@ int main(int argc, char *argv[])
 
 	Mesh mesh(vertices, sizeof(vertices)/sizeof(vertices[0]));
 	Texture texture("../res/bricks.jpg");
+	// attention angle?
+	Camera camera(glm::vec3(0,0,-3), to_rads(70.0f), (float)WIDTH/(float)HEIGHT, 0.01f, 1000.0f);
 	Transform transform;
 
 	float counter = 0.0f;
@@ -32,12 +42,16 @@ int main(int argc, char *argv[])
 		float cosCounter = cosf(counter);
 
 		transform.GetPos().x = sinCounter;
-		transform.GetRot().z = counter*50*3.14/180.0;
-		transform.GetScale() = glm::vec3(cosCounter, cosCounter, cosCounter);
+		transform.GetPos().z = cosCounter;
+		transform.GetPos().z = cosCounter;
+		transform.GetRot().x = to_rads(counter*50);
+		transform.GetRot().y = to_rads(counter*50);
+		transform.GetRot().z = to_rads(counter*50);
+		//transform.GetScale() = glm::vec3(cosCounter, cosCounter, cosCounter);
 
 		shader.Bind();
 		texture.Bind(0);
-		shader.Update(transform);
+		shader.Update(transform, camera);
 		mesh.Draw();
 
 		display.Update();
