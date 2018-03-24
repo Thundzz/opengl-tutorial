@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
 
 		display.Update();
 
-		counter += 0.001f;
+		counter += 0.02f;
 	}
 
 
